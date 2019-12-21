@@ -169,9 +169,11 @@ public class Form extends JFrame implements Runnable {
                     for (Food f : food) {
                         if (f.toBeDeleted) continue;
                         float dist2 = (a.x - f.x) * (a.x - f.x) + (a.y - f.y) * (a.y - f.y);
-                        if (dist2 < minFoodDist) {
-                            minFoodDist = dist2;
-                            closestFood = f;
+                        if(dist2 < a.sightDistance * a.sightDistance) {
+                            if (dist2 < minFoodDist) {
+                                minFoodDist = dist2;
+                                closestFood = f;
+                            }
                         }
                     }
                     if (closestFood != null) {
@@ -182,6 +184,13 @@ public class Form extends JFrame implements Runnable {
                             a.food++;
                         }
                     }
+                    else {
+                        if(Math.random() < a.directionChangeRate) {
+                            double randomAngle = Math.random() * Math.PI * 2;
+                            a.tx = (float)Math.cos(randomAngle) * 2;
+                            a.ty = (float)Math.sin(randomAngle) * 2;
+                        }
+                    }
                 } else if (a.type == 1) {
                     Bacterium closestFood = null;
                     float minFoodDist = (w * w) + (h * h);
@@ -190,9 +199,11 @@ public class Form extends JFrame implements Runnable {
                         if (b.type != 0) continue;
 //                        if (b.food > 3) continue;
                         float dist2 = (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
-                        if (dist2 < minFoodDist) {
-                            minFoodDist = dist2;
-                            closestFood = b;
+                        if(dist2 < a.sightDistance * a.sightDistance) {
+                            if (dist2 < minFoodDist) {
+                                minFoodDist = dist2;
+                                closestFood = b;
+                            }
                         }
                     }
                     if (closestFood != null) {
@@ -201,6 +212,13 @@ public class Form extends JFrame implements Runnable {
                         if (minFoodDist < BACTERIA_RADIUS * BACTERIA_RADIUS + BACTERIA_RADIUS * BACTERIA_RADIUS) {
                             closestFood.toBeDeleted = true;
                             a.food += closestFood.food * 0.1f;
+                        }
+                    }
+                    else {
+                        if(Math.random() < a.directionChangeRate) {
+                            double randomAngle = Math.random() * Math.PI * 2;
+                            a.tx = (float)Math.cos(randomAngle) * 2;
+                            a.ty = (float)Math.sin(randomAngle) * 2;
                         }
                     }
                 }

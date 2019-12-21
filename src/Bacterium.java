@@ -18,6 +18,9 @@ public class Bacterium {
     public float speed = 0.5f;
     public float slip = 0.8f;
 
+    public float sightDistance = 100f;
+    public float directionChangeRate = 0.05f;
+
     public Bacterium(int type, float x, float y) {
         this.type = type;
         this.x = x;
